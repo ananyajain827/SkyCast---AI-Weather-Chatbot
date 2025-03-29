@@ -16,6 +16,7 @@ Whether you're planning a trip or just curious about the weather, SkyCast has yo
 - 🎨 **HTML, CSS, JavaScript** (Frontend)
 - 🌍 **OpenWeather API** (Weather Data)
 - ⚡ **Fetch API** (Handling requests)
+- 🔍 re (Regex Library) (Extracting city names from user input)
 
 ## 📂 Project Structure
 ```
