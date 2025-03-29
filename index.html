@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast - Your AI Weather Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a3751, #00f2fe);
+        }
+        .sidebar {
+            width: 40%;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .sidebar h1 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .sidebar p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .chat-container {
+            width: 60%;
+            max-width: 600px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: auto;
+        }
+        .chat-header {
+            background: #141414;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .chatbox {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f1f1f1;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            max-width: 70%;
+            padding: 12px;
+            border-radius: 20px;
+            margin: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .user-message {
+            background: #85888b;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        .bot-message {
+            background: #ffffff;
+            color: black;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .typing {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        .typing span {
+            width: 8px;
+            height: 8px;
+            margin: 0 3px;
+            background: gray;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+        .input-area {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #ddd;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 16px;
+        }
+        .input-area button {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 30px;
+            margin-left: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .input-area button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h1>SkyCast 🌤️</h1>
+        <p>Welcome to SkyCast, your AI-powered weather assistant. Get real-time weather updates, forecasts, and insights instantly. Just type a city name and let SkyCast do the rest!</p>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">🌤️ SkyCast - Weather Chatbot</div>
+        <div class="chatbox" id="chatbox"></div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Ask about the weather...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            let userInput = document.getElementById("userInput").value.trim();
+            let chatbox = document.getElementById("chatbox");
+
+            if (userInput === "") return;
+
+            // Add user message
+            chatbox.innerHTML += `<div class="message user-message">${userInput}</div>`;
+            document.getElementById("userInput").value = "";
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+            // Show typing dots
+            let typingDots = `<div class="message bot-message typing" id="typing"><span></span><span></span><span></span></div>`;
+            chatbox.innerHTML += typingDots;
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+            // Send request to backend
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("typing").remove();
+                chatbox.innerHTML += `<div class="message bot-message">${data.reply}</div>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            });
+        }
+    </script>
+
+</body>
+</html>
+
