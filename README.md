@@ -3,6 +3,9 @@
 SkyCast is an AI-powered weather chatbot that provides real-time weather updates for any city worldwide. Just type in a city name, and SkyCast will fetch the latest weather details instantly! 🌍☀️🌧️
 Whether you're planning a trip or just curious about the weather, SkyCast has you covered! ☀️🌧️🌪️
 
+## 🎥 Demo
+![Screenshot 2025-03-29 231639](https://github.com/user-attachments/assets/0874bba8-2942-4dc5-8906-7789effc08bd)
+
 ## 🚀 Features
 - 🌡️ Get real-time temperature updates
 - 🌤️ Weather conditions & descriptions
@@ -56,8 +59,6 @@ SkyCast uses the **OpenWeather API**. Get your API key from [OpenWeather](https:
 API_KEY = "your_api_key_here"
 ```
 
-## 🎥 Demo
-![Screenshot 2025-03-29 231639](https://github.com/user-attachments/assets/0874bba8-2942-4dc5-8906-7789effc08bd)
 
 ## 💡 Future Improvements
 - 🌍 Add multi-language support
